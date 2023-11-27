@@ -61,9 +61,6 @@ class AddApplianceActivity : AppCompatActivity() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
-        val list = ArrayList<Appliance>()
-        //ttyAMA0 ttyAMA3 ttyAMA2 ttyAMA1 ttyS0
-
 
         binding.button.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
