@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#353535</color>
+    <color name="colorPrimaryDark">#222222</color>
+    <color name="colorAccent">#33b4db</color>
+
+    <color name="bg">#243B55</color>
+    <color name="state_new_closed">#aaaaaa</color>
+    <color name="state_connecting">#ffa500</color>
+    <color name="state_connected">#30bd18</color>
+    <color name="area_bg">#22ffffff</color>
+
+    <color name="text_color">#bfffffff</color>
+    <color name="text_u_color">#80ffffff</color>
+
+    <color name="trans_bg">#80243B55</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="blue">#6C9FFF</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="red">#FF3C22</color>
+    <color name="green">#4FB753</color>
+
+    <color name="text_color_white">#FFFFFF</color>
+    <color name="text_color_highlight">#6C9FFF</color>
+    <color name="text_color_caption">#999999</color>
+
+    <color name="background_primary">#151517</color>
+    <color name="background_progress">#DD000000</color>
+    <color name="background_dialog">#323236</color>
+    <color name="background_dropdown">#000000</color>
+    <color name="background_default_button_layout">#323236</color>
+    <color name="background_widget_button_press_g1">#6C9FFF</color>
+    <color name="background_widget_button_press_g2">#3E63FF</color>
+    <color name="background_widget_button_press_g3">#5983CE</color>
+    <color name="background_button_press">#6C9FFF</color>
+    <color name="background_button_not_press">#323236</color>
+    <color name="background_button">#51515A</color>
+    <color name="background_button_off_outline">#676768</color>
+
+    <color name="widget_button_text_color">#FFFFFF</color>
+
+    <color name="line_primary">#323236</color>
+    <color name="sound_seek_bar">#33000000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="background_button_enable_gradient_start">#6C9FFF</color>
+    <color name="background_button_enable_gradient_end">#3E63FF</color>
+
+    <color name="background_graph">#323236</color>
+    <color name="background_spinner">#323236</color>
+    <color name="background_spinner_outline">#676768</color>
+
+    <color name="background_circle_highlight">#6C9FFF</color>
+</resources>

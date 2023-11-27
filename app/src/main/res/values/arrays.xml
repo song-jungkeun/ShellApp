@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="appliance">
+        <item>select appliance</item>
+        <item>LED</item>
+        <item>카메라</item>
+        <item>에어컨</item>
+    </string-array>
+</resources>
