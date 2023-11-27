@@ -32,9 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         customAdapter = CustomAdapter(app.list)
 
-        val intent = Intent(this, MyService::class.java)
-        startService(intent)
-        Toast.makeText(this, "Service start", Toast.LENGTH_SHORT).show()
 
         val startForResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -60,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     private fun setSerialPort(name: String?) : SerialPort? {
         try {
             val serialPort = SerialPort(
-                File("dev/$name"),
+                File("$name"),
                 SERIAL_BAUDRATE,
                 0
             )

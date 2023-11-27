@@ -46,7 +46,7 @@ class AddApplianceActivity : AppCompatActivity() {
             }
         }
 //         RS485에 연결되어 있는 Port 의 정보를 entries 배열에 담는다
-        val entries: Array<String> = serialPortFinder.allDevices
+        val entries: Array<String> = serialPortFinder.allDevicesPath
 //         이름 순서대로 정렬
         entries.sort()
 

@@ -23,14 +23,6 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         app:backgroundTint="@color/background_button" />
-    <Button
-        android:id="@+id/Btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text= "serialPort"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:backgroundTint="@color/background_button" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mRecyclerView"
