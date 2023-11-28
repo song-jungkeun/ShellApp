@@ -41,7 +41,10 @@ class MainActivity : AppCompatActivity() {
                     val serialPortNum = intent?.getStringExtra("portNum")
                     val applianceName = intent?.getStringExtra("applianceName")
                     app.list.add(Appliance(applianceType!!, serialPortNum!!, applianceName!!))
-                    setSerialPort(serialPortNum)?.let { app.serialList.add(it) }
+                    setSerialPort(serialPortNum)?.let {
+                        app.serialList.add(it)
+                        app.outputStreamList.add(it.outputStream)
+                    }
                     customAdapter.notifyDataSetChanged()
                 }
             }

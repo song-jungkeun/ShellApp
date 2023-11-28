@@ -20,6 +20,7 @@ import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.ByteBuffer
 
 class MyService : Service() {
 
@@ -151,25 +152,23 @@ class MyService : Service() {
     }
 
     private fun turnOnLED(index: Int) : Boolean{
-        val outputStream = app.serialList[index].outputStream
-        val packet = "AD 53 01 7F"
-        val ret = sendData(packet, outputStream)
-        outputStream.close()
+        val outputStream = app.outputStreamList[index]
+        val hexValues = byteArrayOf(0xAD.toByte(), 0x53.toByte(), 0x01.toByte(), 0x7F.toByte())
+        val buffer = hexValues.inputStream().readBytes()
+        val ret = sendData(buffer, outputStream)
         return ret
     }
 
     private fun turnOffLED(index: Int) :Boolean{
-        val outputStream = app.serialList[index].outputStream
-        val packet = "AD 53 00 7E"
-        val ret = sendData(packet, outputStream)
-        outputStream.close()
+        val outputStream = app.outputStreamList[index]
+        val hexValues = byteArrayOf(0xAD.toByte(), 0x53.toByte(), 0x00.toByte(), 0x7E.toByte())
+        val buffer = hexValues.inputStream().readBytes()
+        val ret = sendData(buffer, outputStream)
         return ret
     }
 
 
-    private fun sendData(inputString: String, outputStream: OutputStream) : Boolean {
-        val byteArray: ByteArray = convertHexStringToByteArray(inputString)
-
+    private fun sendData(byteArray: ByteArray, outputStream: OutputStream) : Boolean {
         try {
             outputStream.write(byteArray)
             return true
@@ -209,16 +208,4 @@ class MyService : Service() {
 //        Log.d("serialExam", "rx : " + strBuilder.toString())
 //    }
 
-
-    private fun convertHexStringToByteArray(hexString: String): ByteArray {
-        val hexValues = hexString.split(" ")
-        val byteArray = ByteArray(hexValues.size)
-        Log.d("test", "size=" + hexValues.size)
-        for (i in hexValues.indices) {
-            // "0x"를 제거하고 문자열을 16진수로 파싱하여 바이트로 변환
-            val byteValue = hexValues[i].toInt(16).toByte()
-            byteArray[i] = byteValue
-        }
-        return byteArray
-    }
 }
