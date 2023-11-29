@@ -11,16 +11,13 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
-import android_serialport_api.SerialPort
 import androidx.core.app.NotificationCompat
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.nio.ByteBuffer
+
 
 class MyService : Service() {
 
@@ -100,7 +97,6 @@ class MyService : Service() {
                     if (cmd == "getApplianceList") {
                         for (i in app.list) {
                             Log.d("test list", "$i")
-
                         }
 
                         val jsonArray = JSONArray()
@@ -131,17 +127,38 @@ class MyService : Service() {
                                 // LED turn on light
                                 val index =
                                     app.list.indexOf(app.list.find { it.applianceName == name })
+                                Log.d("test led", "turn on led: $name")
+                                val result = turnOnLED(index)
+//                                val result = true
 
-                                turnOnLED(index)
+                                val jsonData = JSONObject()
+                                    .put("command", "result")
+                                    .put("type", type)
+                                    .put("applianceName", name)
+                                    .put("control", msg)
+                                    .put("result", result)
+                                sendDataToSmartHome("result", jsonData)
                             } else if (msg == "lightOff") {
                                 val index =
                                     app.list.indexOf(app.list.find { it.applianceName == name })
+                                Log.d("test led", "turn off led: $name")
+                                val result = turnOffLED(index)
+//                                val result = true
 
-                                turnOffLED(index)
+                                val jsonData = JSONObject()
+                                    .put("command", "result")
+                                    .put("type", type)
+                                    .put("applianceName", name)
+                                    .put("control", msg)
+                                    .put("result", result)
+                                sendDataToSmartHome("result", jsonData)
                             }
-                        } else if (type == "Camera") {
+                        } else if (type == "카메라") {
                             Log.d("test Camera", msg)
                             // camera control
+                        } else if (type == "에어컨") {
+                            Log.d("test aircon", msg)
+                            // aircon control
                         }
 
 
@@ -151,61 +168,69 @@ class MyService : Service() {
         }
     }
 
-    private fun turnOnLED(index: Int) : Boolean{
+    private fun turnOnLED(index: Int): Boolean {
         val outputStream = app.outputStreamList[index]
+        val inputStream = app.inputStreamList[index]
+
         val hexValues = byteArrayOf(0xAD.toByte(), 0x53.toByte(), 0x01.toByte(), 0x7F.toByte())
-        val buffer = hexValues.inputStream().readBytes()
-        val ret = sendData(buffer, outputStream)
+        sendData(hexValues, outputStream)
+
+//        val ret = readData(inputStream)
+        val ret = true
+
         return ret
     }
 
-    private fun turnOffLED(index: Int) :Boolean{
+    private fun turnOffLED(index: Int): Boolean {
         val outputStream = app.outputStreamList[index]
+        val inputStream = app.inputStreamList[index]
+
         val hexValues = byteArrayOf(0xAD.toByte(), 0x53.toByte(), 0x00.toByte(), 0x7E.toByte())
-        val buffer = hexValues.inputStream().readBytes()
-        val ret = sendData(buffer, outputStream)
+        sendData(hexValues, outputStream)
+
+//        val ret = readData(inputStream)
+        val ret = true
+
         return ret
     }
 
 
-    private fun sendData(byteArray: ByteArray, outputStream: OutputStream) : Boolean {
+    private fun sendData(byteArray: ByteArray, outputStream: OutputStream) {
         try {
             outputStream.write(byteArray)
-            return true
         } catch (e: IOException) {
             Log.d("test sendData", "error")
         }
-        return false
     }
 
-//    private fun StartRxThread() {
-//        if (inputStream == null) {
-//            Log.e("SerialExam", "Can't open inputstream")
-//            return
-//        }
-//
-//        serialThread = Thread {
-//            while (true) {
-//                try {
-//                    var buffer = ByteArray(64)
-//                    val size = inputStream?.read(buffer)
-//                    OnReceiveData(buffer, size ?: 0)
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
-//        serialThread.start()
-//    }
+    private fun readData(inputStream: InputStream): Boolean {
+        serialThread = Thread {
+            while (true) {
+                try {
+                    var buffer = ByteArray(64)
+                    val size = inputStream?.read(buffer)
+                    val str = onReceiveData(buffer, size ?: 0)
 
-//    private fun OnReceiveData(buffer: ByteArray, size: Int) {
-//        if (size < 1) return
-//
-//        var strBuilder = StringBuilder()
-//        for (i in 0 until size) {
-//            strBuilder.append(String.format("%02x", buffer[i]))
-//        }
-//        Log.d("serialExam", "rx : " + strBuilder.toString())
-//    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    return@Thread
+                }
+            }
+        }
+        serialThread.start()
+
+        return true
+    }
+
+    private fun onReceiveData(buffer: ByteArray, size: Int): String? {
+        if (size < 1) return null
+
+        var strBuilder = StringBuilder()
+        for (i in 0 until size) {
+            strBuilder.append(String.format("%02x", buffer[i]))
+        }
+        Log.d("serialExam", "rx : $strBuilder")
+        return strBuilder.toString()
+    }
 
 }
