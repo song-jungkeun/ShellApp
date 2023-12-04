@@ -18,7 +18,7 @@ class Application: Application() {
 
         val intent = Intent(this, MyService::class.java)
         startService(intent)
-        Toast.makeText(this, "Service start", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "Service start", Toast.LENGTH_SHORT).show()
         list = ArrayList()
         serialList = ArrayList()
         outputStreamList = ArrayList()

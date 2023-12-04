@@ -11,6 +11,7 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import org.json.JSONArray
 import org.json.JSONObject
@@ -170,12 +171,13 @@ class MyService : Service() {
 
     private fun turnOnLED(index: Int): Boolean {
         val outputStream = app.outputStreamList[index]
-        val inputStream = app.inputStreamList[index]
+//        val inputStream = app.inputStreamList[index]
 
         val hexValues = byteArrayOf(0xAD.toByte(), 0x53.toByte(), 0x01.toByte(), 0x7F.toByte())
         sendData(hexValues, outputStream)
 
 //        val ret = readData(inputStream)
+//        readData(inputStream)
         val ret = true
 
         return ret
@@ -183,12 +185,13 @@ class MyService : Service() {
 
     private fun turnOffLED(index: Int): Boolean {
         val outputStream = app.outputStreamList[index]
-        val inputStream = app.inputStreamList[index]
+//        val inputStream = app.inputStreamList[index]
 
         val hexValues = byteArrayOf(0xAD.toByte(), 0x53.toByte(), 0x00.toByte(), 0x7E.toByte())
         sendData(hexValues, outputStream)
 
 //        val ret = readData(inputStream)
+//        readData(inputStream)
         val ret = true
 
         return ret
@@ -203,34 +206,35 @@ class MyService : Service() {
         }
     }
 
-    private fun readData(inputStream: InputStream): Boolean {
-        serialThread = Thread {
-            while (true) {
-                try {
-                    var buffer = ByteArray(64)
-                    val size = inputStream?.read(buffer)
-                    val str = onReceiveData(buffer, size ?: 0)
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    return@Thread
-                }
-            }
-        }
-        serialThread.start()
-
-        return true
-    }
-
-    private fun onReceiveData(buffer: ByteArray, size: Int): String? {
-        if (size < 1) return null
-
-        var strBuilder = StringBuilder()
-        for (i in 0 until size) {
-            strBuilder.append(String.format("%02x", buffer[i]))
-        }
-        Log.d("serialExam", "rx : $strBuilder")
-        return strBuilder.toString()
-    }
+//    private fun readData(inputStream: InputStream): Boolean {
+//        serialThread = Thread {
+//            while (true) {
+//                try {
+//                    var buffer = ByteArray(64)
+//                    val size = inputStream?.read(buffer)
+//                    val str = onReceiveData(buffer, size ?: 0)
+//                    Toast.makeText(this, "read=$str", Toast.LENGTH_SHORT)
+//
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                    return@Thread
+//                }
+//            }
+//        }
+//        serialThread.start()
+//
+//        return true
+//    }
+//
+//    private fun onReceiveData(buffer: ByteArray, size: Int): String? {
+//        if (size < 1) return null
+//
+//        var strBuilder = StringBuilder()
+//        for (i in 0 until size) {
+//            strBuilder.append(String.format("%02x", buffer[i]))
+//        }
+//        Log.d("serialExam", "rx : $strBuilder")
+//        return strBuilder.toString()
+//    }
 
 }
